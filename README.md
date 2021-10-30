@@ -123,6 +123,84 @@ zone "franky.i02.com" {
  
 <br>
 
+## Problem 6
+First we need to change _named.conf.options_ in both Water7 and Enieslobby configurations.
+
+```
+// dnssec-validation auto;
+
+allow-query{any;};
+```
+
+![Water7 named.conf.options](Screenshot/5_named.conf.options.png)
+
+In Enieslobby, we need to add a line to make a subdomain for mecha in _/kaizoku/franky.i02.com_.
+
+```
+mecha   IN      A       192.209.2.3     ; IP Water7
+```
+
+![Enieslobby franky.i02.com](Screenshot/2_franky.i02.com.png)
+
+In Water7, we need to make a new folder in _/etc/bind/_ folder namely _sunnygo_ and also inside _sunnygo_ a file namely **mecha.franky.i02.com** with similar content as previous problems.
+
+![Water7 mecha.franky.i02.com](Screenshot/6_mecha.franky.i02.com.png)
+
+![6 Ping](Screenshot/6_ping.png)
+
+<br>
+
+## Problem 7
+In Water7, we need to make a file in _sunnygo_ folder namely **general.mecha.franky.i02.com**
+
+![Water7 general.franky.i02.com](Screenshot/7_general.mecha.franky.i02.com.png)
+
+![7 Ping](Screenshot/7_ping.png)
+
+<br>
+
+## Problem 8
+In Skypie, we need to copy a config file and paste it to its directory with this command with **franky.i02.com.conf** name.
+
+```shell
+cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/franky.i02.com.conf
+```
+
+We need to add this command inside _franky.i02.com.conf_ file.
+
+```
+ServerName franky.i02.com
+ServerAlias www.franky.i02.com
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/franky.i02.com/
+```
+
+![franky.conf](Screenshot/8and9.png)
+
+After that, we need to make directory named **franky.i02.com** inside _/var/www/_ and then run these commands.
+
+```
+a2ensite franky.i02.com
+service bind9 restart
+```
+
+We can check it using one of the client with `lynx franky.i02.com`.
+
+![8 lynx](Screenshot/8_lynx.png)
+
+<br>
+
+## Problem 9
+In order to do this problem, we need to make an alias in _franky.i02.com.conf_.
+
+```
+Alias "/home" "/var/www/franky.i02.com/index.php/home"
+```
+
+![9 lynx](Screenshot/8_lynx.png)
+
+<br>
+
 ## Problem 10
 This problem asks us to make another subdomain named **super.franky.i02.com** with similar config like previous problem. The difference is only like this
 
